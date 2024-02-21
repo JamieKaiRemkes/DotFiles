@@ -38,19 +38,9 @@ export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/b
 # Set VS Code as default editor for kubectl
 export KUBE_EDITOR='code --wait'
 
-# Alias for using bare git as dotfiles storage
-alias dot='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-alias dst='dot status'
-alias da='dot add'
-alias daa='dot add -u'
-alias drm='dot rm'
-alias dc='dot commit'
-alias dcm='dot commit -m'
-alias dp='dot push'
-alias dpr='dot pull --rebase'
-
-# Aliasses for using zsh
-alias ss='source .zshrc'
+# Load aliases
+[[ -d ~/.aliases ]] &&
+    for f in $HOME/.aliases/*; do source $f; done
 
 # Load env variables
 [[ -r ~/.znap/znap/znap.zsh ]] &&
