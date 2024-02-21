@@ -1,12 +1,12 @@
 [user]
     name = Jamie Kai Remkes
-    email = jamie@maniacs.company
+    email = j.remkes.jr@gmail.com
 
 [includeIf "gitdir:~/Code/Maniacs"]
-    path = ~/.Maniacs/.gitconfig
+    path = ~/.gitconfig-maniacs
 
 [includeIf "gitdir:~/Code/Wartsila"]
-    path = ~/.Wartsila/.gitconfig
+    path = ~/.gitconfig-wartsila
 
 [core]
 	editor = code --wait
