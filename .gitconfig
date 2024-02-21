@@ -1,0 +1,15 @@
+[user]
+    name = Jamie Kai Remkes
+    email = jamie@maniacs.company
+
+[includeIf "gitdir:~/Code/Maniacs"]
+    path = ~/.Maniacs/.gitconfig
+
+[includeIf "gitdir:~/Code/Wartsila"]
+    path = ~/.Wartsila/.gitconfig
+
+[core]
+	editor = code --wait
+
+[push]
+	autoSetupRemote = true
