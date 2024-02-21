@@ -52,3 +52,7 @@ alias dpr='dot pull --rebase'
 
 # Aliasses for using zsh
 alias ss='source .zshrc'
+
+# Load env variables
+[[ -r ~/.znap/znap/znap.zsh ]] &&
+    source $HOME/.zshenv
