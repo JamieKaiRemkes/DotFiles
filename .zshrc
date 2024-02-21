@@ -36,6 +36,9 @@ znap prompt marlonrichert/zsh-autocomplete
 # Add Visual Studio Code (code)
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
+# Set VS Code as default editor for kubectl
+export KUBE_EDITOR='code --wait'
+
 # Alias for using bare git as dotfiles storage
 alias dot='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias dst='dot status'
