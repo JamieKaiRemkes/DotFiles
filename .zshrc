@@ -2,7 +2,7 @@
 export ZSH="$HOME/.oh-my-zsh"
 
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+ZSH_THEME="jonathan"
 
 # Update automatically without asking
 zstyle ':omz:update' mode auto      
@@ -30,8 +30,7 @@ fi
 source ~/.znap/znap/znap.zsh  
 
 # Znap plugins
-znap prompt sindresorhus/pure
-znap prompt marlonrichert/zsh-autocomplete
+znap source marlonrichert/zsh-autocomplete
 
 # Add Visual Studio Code (code)
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
