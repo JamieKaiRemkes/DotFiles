@@ -1,4 +1,4 @@
 # Aliases for using zsh with ease
-alias ss='source .zshrc'
+alias ss='source ~/.zshrc'
 alias x='exit'
 alias c='clear'
