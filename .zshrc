@@ -43,5 +43,5 @@ export KUBE_EDITOR='code --wait'
     for f in $HOME/.aliases/*; do source $f; done
 
 # Load env variables
-[[ -r ~/.znap/znap/znap.zsh ]] &&
+[[ -r ~/.zshenv ]] &&
     source $HOME/.zshenv
