@@ -5,3 +5,8 @@ This repo is meant for dotfile storage inspired by [this](https://www.atlassian.
 
 ### Device specific config
 Use branches to store config differences for different devices. This way you can still sync changes trough the main branch and use the branch as a device specific "patch" to apply minor changes.
+
+## Usage
+
+### Backup brew
+You can use brew bundle to backup your brew taps, casks and mac apps. Start by installing brew:
