@@ -9,7 +9,7 @@ zstyle ':omz:update' mode auto
 zstyle ':omz:update' frequency 7
 
 # Default plugins
-plugins=(git node nvm docker doctl kubectl helm doctl vscode)
+plugins=(1password adb argocd aws azure brew bun colorize deno docker docker-compose doctl dotenv encode64 flutter gcloud gh git golang helm kubectl microk8s nmap node npm nvm pip pipenv postgres python qrcode systemd terraform vscode)
 
 # Load omzsh
 source $ZSH/oh-my-zsh.sh
