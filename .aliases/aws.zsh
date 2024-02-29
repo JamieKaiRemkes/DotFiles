@@ -1,2 +1,2 @@
 # Aliases for working with aws
-alias ax='assume --export'
+alias ax="assume --export"
