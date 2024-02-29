@@ -51,7 +51,6 @@ brew "common-fate/granted/granted"
 brew "minacle/chntpw/chntpw"
 brew "teamookla/speedtest/speedtest"
 cask "docker"
-cask "imageoptim"
 cask "monitorcontrol"
 mas "Amphetamine", id: 937984704
 mas "Magnet", id: 441258766
