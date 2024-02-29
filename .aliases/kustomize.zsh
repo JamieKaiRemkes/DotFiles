@@ -1,0 +1,1 @@
+alias kb="kustomize build --enable-helm"

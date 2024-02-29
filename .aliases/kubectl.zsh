@@ -1,0 +1,1 @@
+alias krr="kubectl rollout restart"
