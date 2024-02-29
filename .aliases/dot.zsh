@@ -1,5 +1,5 @@
 # Aliases for using bare git as dotfiles storage
-alias dot="/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree ~"
+alias dot="git --git-dir=$HOME/.dotfiles --work-tree ~"
 alias dst="dot status"
 alias da="dot add"
 alias daa="dot add -u"
