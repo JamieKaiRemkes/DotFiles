@@ -1,0 +1,8 @@
+alias b='brew'
+alias bs='brew search'
+alias bt='brew tap'
+alias bi='brew install'
+alias bic='brew install --cask'
+alias bb='brew bundle --no-lock --file=~/Brewfile'
+alias bbd='brew bundle dump --no-lock --file=~/Brewfile'
+alias bbdf='brew bundle dump --no-lock --file=~/Brewfile --force'
