@@ -41,6 +41,9 @@ export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/b
 [[ -d ~/.aliases ]] &&
     for f in $HOME/.aliases/*; do source $f; done
 
+# Default env
+export DEFAULT_NPM_REGISTRY='https://registry.npmjs.org/'
+
 # Load env variables
 [[ -r ~/.zshenv ]] &&
     source $HOME/.zshenv
