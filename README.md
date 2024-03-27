@@ -7,6 +7,13 @@ This repo is meant for dotfile storage inspired by [this](https://www.atlassian.
 Use branches to store config differences for different devices. This way you can still sync changes trough the main branch and use the branch as a device specific "patch" to apply minor changes.
 
 ## Setup
+Make sure you install zsh & ohmyzsh:
+```sh
+sudo apt install zsh &&
+chsh -s $(which zsh) &&
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
+
 Clone the repo with a spesific ssh key:
 ```sh
 git clone --bare -c "core.sshCommand=ssh -i ~/.ssh/kabouterdorp" git@ssh.kabouterdorp.cloud:JKR/dotfiles.git .dotfiles
