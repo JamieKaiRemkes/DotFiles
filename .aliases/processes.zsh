@@ -1,0 +1,1 @@
+alias using='f(){ lsof -i tcp:"$1"; unset -f f; }; f'
