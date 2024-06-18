@@ -41,6 +41,10 @@ export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/b
 [[ -d ~/.aliases ]] &&
     for f in $HOME/.aliases/*; do source $f; done
 
+# Load aliases
+[[ -d ~/.completions ]] &&
+    for f in $HOME/.completions/*; do source $f; done
+
 # Default env
 export DEFAULT_NPM_REGISTRY='https://registry.npmjs.org/'
 
