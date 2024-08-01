@@ -4,12 +4,13 @@ export ZSH="$HOME/.oh-my-zsh"
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="jonathan"
 
-# Update automatically without asking
-zstyle ':omz:update' mode auto      
-zstyle ':omz:update' frequency 7
+# Update manualy without asking
+# zstyle ':omz:update' mode auto      
+# zstyle ':omz:update' frequency 7
+DISABLE_AUTO_UPDATE=true 
 
 # Default plugins
-plugins=(1password adb argocd aws azure brew bun colorize deno docker docker-compose doctl dotenv encode64 flutter gcloud gh git golang helm kubectl microk8s nmap node npm nvm pip pipenv postgres python qrcode systemd terraform vscode)
+plugins=(1password argocd aws azure brew bun colorize deno docker docker-compose doctl dotenv encode64 flutter gcloud gh git golang helm kubectl microk8s nmap node npm nvm pip pipenv postgres python qrcode systemd terraform vscode)
 
 # Load omzsh
 source $ZSH/oh-my-zsh.sh
@@ -43,7 +44,7 @@ export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/b
 
 # Load aliases
 [[ -d ~/.completions ]] &&
-    for f in $HOME/.completions/*; do source $f; done
+    for f in $HOME/.completions/*.zsh; do source $f; done
 
 # Default env
 export DEFAULT_NPM_REGISTRY='https://registry.npmjs.org/'
