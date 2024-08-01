@@ -9,7 +9,7 @@
     path = ~/.gitconfig-wartsila
 
 [core]
-	editor = code --wait
+	editor = $EDITOR
 
 [push]
 	autoSetupRemote = true
