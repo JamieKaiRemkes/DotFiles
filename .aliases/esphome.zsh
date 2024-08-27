@@ -1,0 +1,5 @@
+alias espv="esphome config"
+alias espc="esphome compile"
+alias espu="esphome upload"
+alias espr="esphome run"
+alias espl="esphome logs"
