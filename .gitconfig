@@ -10,6 +10,7 @@
 
 [core]
 	editor = $EDITOR
+	filemode = false
 
 [push]
 	autoSetupRemote = true
