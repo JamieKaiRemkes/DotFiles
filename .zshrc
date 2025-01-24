@@ -49,6 +49,10 @@ export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/b
 # Default env
 export DEFAULT_NPM_REGISTRY='https://registry.npmjs.org/'
 
+# Default env
+export JAVA_HOME=/opt/homebrew/opt/openjdk@17
+export PATH=$JAVA_HOME/bin:$PATH
+
 # Load env variables
 [[ -r ~/.zshenv ]] &&
     source $HOME/.zshenv
