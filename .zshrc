@@ -10,7 +10,7 @@ ZSH_THEME="jonathan"
 DISABLE_AUTO_UPDATE=true 
 
 # Default plugins
-plugins=(1password argocd aws azure brew bun colorize deno docker docker-compose doctl dotenv encode64 flutter gcloud gh git golang helm kubectl microk8s nmap node npm nvm pip pipenv postgres python qrcode systemd terraform vscode)
+plugins=(1password argocd asdf aws azure brew bun colorize deno docker docker-compose doctl dotenv encode64 flutter gcloud gh git golang helm kubectl microk8s nmap node npm nvm pip pipenv postgres python qrcode systemd terraform vscode)
 
 # Load omzsh
 source $ZSH/oh-my-zsh.sh
