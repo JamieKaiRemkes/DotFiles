@@ -10,7 +10,7 @@ ZSH_THEME="jonathan"
 DISABLE_AUTO_UPDATE=true 
 
 # Default plugins
-plugins=(1password argocd asdf aws azure brew bun colorize deno docker docker-compose doctl dotenv encode64 flutter gcloud gh git golang helm kubectl microk8s nmap node npm nvm postgres qrcode systemd terraform vscode)
+plugins=(1password argocd asdf aws azure brew colorize docker docker-compose doctl encode64 gcloud gh git golang helm kubectl microk8s node npm nvm)
 
 # Load omzsh
 source $ZSH/oh-my-zsh.sh
@@ -40,7 +40,7 @@ export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/b
 
 # Load aliases
 [[ -d ~/.aliases ]] &&
-    for f in $HOME/.aliases/*; do source $f; done
+    for f in $HOME/.aliases/*.zsh; do source $f; done
 
 # Load aliases
 [[ -d ~/.completions ]] &&
