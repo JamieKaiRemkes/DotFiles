@@ -1,0 +1,41 @@
+k9s:
+  liveViewAutoRefresh: false
+  screenDumpDir: /Users/kai/.local/state/k9s/screen-dumps
+  refreshRate: 1
+  maxConnRetry: 10
+  readOnly: false
+  noExitOnCtrlC: false
+  ui:
+    enableMouse: false
+    headless: false
+    logoless: true
+    crumbsless: false
+    reactive: false
+    noIcons: false
+    defaultsToFullScreen: true
+  skipLatestRevCheck: false
+  disablePodCounting: false
+  shellPod:
+    image: busybox:latest
+    namespace: default
+    limits:
+      cpu: 100m
+      memory: 100Mi
+  imageScans:
+    enable: false
+    exclusions:
+      namespaces: []
+      labels: {}
+  logger:
+    tail: 100
+    buffer: 5000
+    sinceSeconds: -10
+    textWrap: false
+    showTime: true
+  thresholds:
+    cpu:
+      critical: 95
+      warn: 90
+    memory:
+      critical: 95
+      warn: 90
