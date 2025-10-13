@@ -35,6 +35,9 @@ source ~/.znap/znap/znap.zsh
 # Znap plugins
 znap source marlonrichert/zsh-autocomplete
 
+# Add Homebrew to PATH
+export PATH="/opt/homebrew/bin:$PATH"
+
 # Add Visual Studio Code (code)
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
@@ -42,7 +45,7 @@ export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/b
 [[ -d ~/.aliases ]] &&
     for f in $HOME/.aliases/*.zsh; do source $f; done
 
-# Load aliases
+# Load completions
 [[ -d ~/.completions ]] &&
     for f in $HOME/.completions/*.zsh; do source $f; done
 
