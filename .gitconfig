@@ -2,8 +2,8 @@
     name = Jamie Kai Remkes
     email = j.remkes.jr@gmail.com
 
-[includeIf "gitdir:~/Code/Maniacs/"]
-    path = ~/.gitconfig-maniacs
+[includeIf "gitdir:~/Code/JKR/"]
+    path = ~/.gitconfig-jkr
 
 [includeIf "gitdir:~/Code/Wartsila/"]
     path = ~/.gitconfig-wartsila
