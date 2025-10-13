@@ -10,7 +10,7 @@ ZSH_THEME="jonathan"
 DISABLE_AUTO_UPDATE=true 
 
 # Default plugins
-plugins=(1password argocd asdf aws azure brew colorize docker docker-compose doctl encode64 gcloud gh git golang helm kubectl microk8s node npm nvm)
+plugins=(1password argocd asdf aws azure brew colorize docker docker-compose doctl encode64 gcloud gh git golang helm kubectl microk8s nmap node npm nvm postgres python qrcode systemd terraform vscode)
 
 # Load omzsh
 source $ZSH/oh-my-zsh.sh
@@ -51,11 +51,14 @@ export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/b
 
 # Default env
 export DEFAULT_NPM_REGISTRY='https://registry.npmjs.org/'
-
-# Default env
 export JAVA_HOME=/opt/homebrew/opt/openjdk@17
 export PATH=$JAVA_HOME/bin:$PATH
 
 # Load env variables
 [[ -r ~/.zshenv ]] &&
     source $HOME/.zshenv
+
+. "$HOME/.local/share/../bin/env"
+
+# Default env dynamic additions
+export KUBECONFIG="${KUBECONFIG:+$KUBECONFIG:}$(find ./ -type f -name "*.kubeconfig" | tr '\n' ':' | sed 's/:$//')"
