@@ -51,7 +51,9 @@ export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/b
 
 # Default env
 export DEFAULT_NPM_REGISTRY='https://registry.npmjs.org/'
-export JAVA_HOME=/opt/homebrew/opt/openjdk@17
+
+# Default env
+export JAVA_HOME=/opt/homebrew/opt/openjdk@21
 export PATH=$JAVA_HOME/bin:$PATH
 
 # Load env variables
@@ -62,3 +64,6 @@ export PATH=$JAVA_HOME/bin:$PATH
 
 # Default env dynamic additions
 export KUBECONFIG="${KUBECONFIG:+$KUBECONFIG:}$(find ./ -type f -name "*.kubeconfig" | tr '\n' ':' | sed 's/:$//')"
+
+# Java env
+. ~/.asdf/plugins/java/set-java-home.zsh
