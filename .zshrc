@@ -60,8 +60,6 @@ export PATH=$JAVA_HOME/bin:$PATH
 [[ -r ~/.zshenv ]] &&
     source $HOME/.zshenv
 
-. "$HOME/.local/share/../bin/env"
-
 # Default env dynamic additions
 export KUBECONFIG="${KUBECONFIG:+$KUBECONFIG:}$(find ./ -type f -name "*.kubeconfig" | tr '\n' ':' | sed 's/:$//')"
 
