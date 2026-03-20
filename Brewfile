@@ -100,7 +100,6 @@ mas "Affinity Photo 2", id: 1616822987
 mas "Affinity Publisher 2", id: 1606941598
 mas "Amphetamine", id: 937984704
 mas "Magnet", id: 441258766
-mas "Manet", id: 6470928235
 mas "Microsoft Outlook", id: 985367838
 mas "Microsoft PowerPoint", id: 462062816
 mas "OneDrive", id: 823766827
