@@ -13,7 +13,6 @@ brew "act"
 brew "antigen"
 brew "libtiff"
 brew "little-cms2"
-brew "webp"
 brew "jpeg-xl"
 brew "aom"
 brew "argocd"
@@ -29,16 +28,10 @@ brew "coreutils"
 brew "curl"
 brew "direnv"
 brew "doctl"
-brew "unbound"
-brew "gnutls"
-brew "openjpeg"
-brew "leptonica"
-brew "libass"
-brew "librist"
-brew "pango"
-brew "tesseract"
 brew "ffmpeg"
 brew "gh"
+brew "unbound"
+brew "gnutls"
 brew "goose"
 brew "hdf5"
 brew "helm"
@@ -52,6 +45,11 @@ brew "kubent"
 brew "kubernetes-cli"
 brew "kubeseal"
 brew "kustomize"
+brew "openjpeg"
+brew "webp"
+brew "leptonica"
+brew "libass"
+brew "librist"
 brew "llvm"
 brew "mas"
 brew "mypy"
@@ -60,11 +58,13 @@ brew "numpy"
 brew "nvm"
 brew "opentofu"
 brew "openvino"
+brew "pango"
 brew "payload-dumper-go"
 brew "pre-commit", link: false
 brew "qemu"
 brew "rust"
 brew "ssh-copy-id"
+brew "tesseract"
 brew "tfenv"
 brew "tmux"
 brew "uv"
@@ -94,6 +94,19 @@ cask "macfuse"
 cask "monitorcontrol"
 cask "openscad"
 cask "postman"
+mas "1Password 7", id: 1333542190
+mas "Affinity Designer 2", id: 1616831348
+mas "Affinity Photo 2", id: 1616822987
+mas "Affinity Publisher 2", id: 1606941598
+mas "Amphetamine", id: 937984704
+mas "Magnet", id: 441258766
+mas "Manet", id: 6470928235
+mas "Microsoft Outlook", id: 985367838
+mas "Microsoft PowerPoint", id: 462062816
+mas "OneDrive", id: 823766827
+mas "Slack", id: 803453959
+mas "WhatsApp", id: 310633997
+mas "WireGuard", id: 1451685025
 vscode "alexkrechik.cucumberautocomplete"
 vscode "antyos.openscad"
 vscode "bierner.emojisense"
