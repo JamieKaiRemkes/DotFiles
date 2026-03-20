@@ -38,6 +38,9 @@ znap source marlonrichert/zsh-autocomplete
 # Add Homebrew to PATH
 export PATH="/opt/homebrew/bin:$PATH"
 
+# Add ~/cli to PATH
+export PATH="$HOME/cli:$PATH"
+
 # Add Visual Studio Code (code)
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 

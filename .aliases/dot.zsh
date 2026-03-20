@@ -1,5 +1,5 @@
-# Aliases for using bare git as dotfiles storage
-alias dot="git --git-dir=$HOME/.dotfiles --work-tree ~"
+# Aliases for using bare git as dotfiles storage (backed by ~/cli/dot)
+# unalias dot 2>/dev/null
 alias dst="dot status"
 alias da="dot add -f"
 alias daa="dot add -u"
@@ -9,4 +9,4 @@ alias dcm="dot commit -m"
 alias dp="dot push"
 alias dplr="dot pull --rebase"
 alias dplra="dot pull --rebase --autostash"
-alias de="GIT_WORK_TREE=~ GIT_DIR=~/.dotfiles $EDITOR --wait=false --new-window ~ && unset GIT_WORK_TREE && unset GIT_DIR"
+alias de="dot edit"
