@@ -62,8 +62,13 @@ export DEFAULT_NPM_REGISTRY='https://registry.npmjs.org/'
 
 # Default env dynamic additions
 if [[ "$PWD" != "$HOME" ]]; then
-    export KUBECONFIG="${KUBECONFIG:+$KUBECONFIG:}$(find ./ -type f -name "*.kubeconfig" | tr '\n' ':' | sed 's/:$//')"
+    _kc="$(find ./ -maxdepth 3 -type f \( -name "*.kubeconfig" -o -name "kubeconfig" \) 2>/dev/null | tr '\n' ':' | sed 's/:$//')"
+    [[ -n "$_kc" ]] && export KUBECONFIG="${KUBECONFIG:+$KUBECONFIG:}$_kc"
+    unset _kc
 fi
 
 # Java env
 . ~/.asdf/plugins/java/set-java-home.zsh
+
+# # Direnv
+eval "$(direnv hook zsh)"
