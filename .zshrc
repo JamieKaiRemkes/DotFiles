@@ -71,7 +71,9 @@ if [[ "$PWD" != "$HOME" ]]; then
 fi
 
 # Java env
-. ~/.asdf/plugins/java/set-java-home.zsh
+[[ -x $(which asdf) && -r ~/.asdf/plugins/java/set-java-home.zsh ]] &&
+  . ~/.asdf/plugins/java/set-java-home.zsh
 
 # # Direnv
-eval "$(direnv hook zsh)"
+[[ -x $(which direnv) ]] &&
+  eval "$(direnv hook zsh)"
