@@ -7,15 +7,23 @@ This repo is meant for dotfile storage inspired by [this](https://www.atlassian.
 Use branches to store config differences for different devices. This way you can still sync changes trough the main branch and use the branch as a device specific "patch" to apply minor changes.
 
 ## Quick Install
-On a fresh machine with `git` and `curl` available:
+On a fresh machine, set your GitHub PAT and run:
 ```sh
-bash <(curl -fsSL https://raw.githubusercontent.com/JamieKaiRemkes/DotFiles/main/install.sh)
+export GITHUB_PAT="ghp_..."
+curl -fsSL -H "Authorization: token $GITHUB_PAT" \
+  https://raw.githubusercontent.com/JamieKaiRemkes/DotFiles/main/install.sh | bash
 ```
 
 With options:
 ```sh
-bash <(curl -fsSL https://raw.githubusercontent.com/JamieKaiRemkes/DotFiles/main/install.sh) --branch my-device --ssh-key ~/.ssh/my_key
+export GITHUB_PAT="ghp_..."
+curl -fsSL -H "Authorization: token $GITHUB_PAT" \
+  https://raw.githubusercontent.com/JamieKaiRemkes/DotFiles/main/install.sh \
+  | bash -s -- --branch my-device --ssh-key ~/.ssh/my_key
 ```
+
+> Create a **fine-grained personal access token** with `Contents: read` scope on this repo.
+> The installer reads `$GITHUB_PAT` from the environment to clone via HTTPS when no SSH key is available yet.
 
 The installer handles:
 - **zsh** — installs & sets as default shell
