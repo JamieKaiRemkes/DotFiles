@@ -10,7 +10,36 @@ ZSH_THEME="jonathan"
 DISABLE_AUTO_UPDATE=true 
 
 # Default plugins
-plugins=(1password argocd asdf aws azure brew colorize docker docker-compose doctl encode64 gcloud gh git golang helm kubectl microk8s nmap node npm nvm postgres python qrcode systemd terraform vscode)
+plugins=(
+  1password
+  argocd
+  asdf
+  aws
+  azure
+  brew
+  colorize
+  docker
+  docker-compose
+  doctl
+  encode64
+  gcloud
+  gh
+  git
+  golang
+  helm
+  kubectl
+  microk8s
+  nmap
+  node
+  npm
+  nvm
+  postgres
+  python
+  qrcode
+  systemd
+  terraform
+  vscode
+)
 
 # Load omzsh
 source $ZSH/oh-my-zsh.sh
@@ -64,10 +93,13 @@ export DEFAULT_NPM_REGISTRY='https://registry.npmjs.org/'
     source ./.venv/bin/activate
 
 # Default env dynamic additions
+export KUBECONFIG="$HOME/.kube/config"
 if [[ "$PWD" != "$HOME" ]]; then
-    _kc="$(find ./ -maxdepth 3 -type f \( -name "*.kubeconfig" -o -name "kubeconfig" \) 2>/dev/null | tr '\n' ':' | sed 's/:$//')"
-    [[ -n "$_kc" ]] && export KUBECONFIG="${KUBECONFIG:+$KUBECONFIG:}$_kc"
-    unset _kc
+    while IFS= read -r _f; do
+        _abs="$(cd "$(dirname "$_f")" && pwd)/$(basename "$_f")"
+        [[ ":$KUBECONFIG:" != *":$_abs:"* ]] && export KUBECONFIG="$KUBECONFIG:$_abs"
+    done < <(find ./ -maxdepth 3 -type f \( -name "*.kubeconfig" -o -name "kubeconfig" \) 2>/dev/null)
+    unset _abs _f
 fi
 
 # Java env
