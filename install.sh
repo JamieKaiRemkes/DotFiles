@@ -151,7 +151,7 @@ ok "asdf ready"
 # ── 9. Brew bundle (install all packages) ────────────────
 if [[ -f "$HOME/Brewfile" ]]; then
     info "Installing Homebrew packages from Brewfile…"
-    brew bundle --file="$HOME/Brewfile" --no-lock || warn "Some Brewfile entries failed (non-fatal)"
+    brew bundle --file="$HOME/Brewfile" || warn "Some Brewfile entries failed (non-fatal)"
     ok "Brewfile packages installed"
 else
     warn "No Brewfile found — skipping brew bundle"
