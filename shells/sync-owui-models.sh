@@ -12,11 +12,10 @@ mkdir -p "$(dirname "$CONFIG")"
 # ── Fetch models from OWUI ─────────────────────────────────────────────────
 fetch_models() {
     local url="$1"
-    local auth=""
-    [[ -n "$API_KEY" ]] && auth="-H Authorization: Bearer ${API_KEY}"
+    local -a curl_args=(-sSL --fail-with-body -w "\n%{http_code}")
+    [[ -n "$API_KEY" ]] && curl_args+=(-H "Authorization: Bearer ${API_KEY}")
 
-    # shellcheck disable=SC2086
-    curl -sSL --fail-with-body -w "\n%{http_code}" $auth "$url" 2>/dev/null || true
+    curl "${curl_args[@]}" "$url" 2>/dev/null || true
 }
 
 resp=$(fetch_models "${OWUI_URL%/}/v1/models")
@@ -35,75 +34,72 @@ if [[ "$http_code" != "200" || -z "$body" ]]; then
     exit 1
 fi
 
-# ── Build JSON config ──────────────────────────────────────────────────────
-# Requires python3 (ships with macOS)
-python3 << 'PYEOF'
-import json, sys, os
+# ── Validate JSON ──────────────────────────────────────────────────────────
+# ── Validate & fallback ────────────────────────────────────────────────────
+if [[ "$(echo "$body" | head -c1)" != "{" && "$(echo "$body" | head -c1)" != "[" ]]; then
+    resp=$(fetch_models "${OWUI_URL%/}/api/models")
+    http_code=$(echo "$resp" | tail -n1)
+    body=$(echo "$resp" | sed '$d')
+fi
 
-config_path = os.path.expanduser(
-    "~/Library/Application Support/Code/User/chatLanguageModels.json"
-)
-body = sys.stdin.read()
+if ! echo "$body" | jq -e . >/dev/null 2>&1; then
+    echo "Error: invalid JSON from OWUI (HTTP $http_code)" >&2
+    exit 1
+fi
 
-base_url = os.environ.get("OWUI_URL", "https://llm.jkr.digital").rstrip("/")
-api_key = os.environ.get("OWUI_API_KEY", os.environ.get("OPENAI_API_KEY", ""))
-api_key_ref = "${input:chat.lm.secret.owui}" if api_key else ""
+# ── Build JSON config with jq ──────────────────────────────────────────────
+if [[ -n "$API_KEY" ]]; then
+    API_KEY_REF='${input:chat.lm.secret.owui}'
+else
+    API_KEY_REF=''
+fi
 
-try:
-    data = json.loads(body)
-except json.JSONDecodeError as e:
-    print(f"Error: invalid JSON from OWUI: {e}", file=sys.stderr)
-    sys.exit(1)
+MODELS_JSON=$(echo "$body" | jq '{
+    error: (if has("detail") then .detail else null end),
+    models: (
+        if type == "array" then
+            map({ id: (.id // .model), name: (.name // .id // .model // "Unknown") } | select(.id != null))
+        elif has("data") and (.data | type == "array") then
+            .data | map({ id: (.id // .model), name: (.name // .id // .model // "Unknown") } | select(.id != null))
+        else empty end
+    )
+}')
 
-# /v1/models returns {"data": [{"id": "...", "name": "..."}, ...]}
-# /api/models returns [{"id": "...", "name": "..."}, ...]
-raw_models = data.get("data") if isinstance(data, dict) else data
-if not isinstance(raw_models, list):
-    print("Error: unexpected response format", file=sys.stderr)
-    sys.exit(1)
+MODEL_COUNT=$(echo "$MODELS_JSON" | jq '.models | length')
+if [[ "$MODEL_COUNT" -eq 0 ]]; then
+    echo "Warning: no models found in OWUI response" >&2
+    exit 1
+fi
 
-models = []
-for m in raw_models:
-    if not isinstance(m, dict):
-        continue
-    model_id = m.get("id") or m.get("model")
-    name = m.get("name") or m.get("id") or m.get("model") or "Unknown"
-    if not model_id:
-        continue
-    models.append({
-        "id": model_id,
-        "name": name,
-        "url": f"{base_url}/api/chat/completions",
-        "toolCalling": True,
-        "vision": True,
-        "maxInputTokens": 128000,
-        "maxOutputTokens": 16000
-    })
+CONFIG_JSON=$(jq -n \
+    --arg base_url "${OWUI_URL%/}" \
+    --arg api_key "$API_KEY_REF" \
+    --argjson models "$(echo "$MODELS_JSON" | jq '.models')" \
+    '[{
+        "name": "OWUI",
+        "vendor": "customendpoint",
+        "apiKey": $api_key,
+        "apiType": "chat-completions",
+        "models": [
+            $models[] | {
+                "id": .id,
+                "name": .name,
+                "url": "\($base_url)/api/chat/completions",
+                "toolCalling": true,
+                "vision": true,
+                "maxInputTokens": 128000,
+                "maxOutputTokens": 16000
+            }
+        ]
+    }]')
 
-if not models:
-    print("Warning: no models found in OWUI response", file=sys.stderr)
-    sys.exit(1)
+# ── Write config ─────────────────────────────────────────────────────────────
+if [[ -f "$CONFIG" ]]; then
+    cp "$CONFIG" "$CONFIG.backup"
+    echo "Backed up existing config to $CONFIG.backup"
+fi
 
-config = [{
-    "name": "OWUI",
-    "vendor": "customendpoint",
-    "apiKey": api_key_ref,
-    "apiType": "chat-completions",
-    "models": models
-}]
+echo "$CONFIG_JSON" > "$CONFIG"
 
-# Backup existing config
-if os.path.exists(config_path):
-    backup = config_path + ".backup"
-    with open(config_path, "r") as f:
-        with open(backup, "w") as b:
-            b.write(f.read())
-    print(f"Backed up existing config to {backup}")
-
-with open(config_path, "w") as f:
-    json.dump(config, f, indent="\t")
-
-print(f"Synced {len(models)} model(s) to {config_path}")
-print("Reload VS Code: (Command Palette → Developer: Reload Window) to apply.")
-PYEOF
-<<< "$body"
+echo "Synced ${MODEL_COUNT} model(s) to $CONFIG"
+echo "Reload VS Code: (Command Palette → Developer: Reload Window) to apply."

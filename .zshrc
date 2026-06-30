@@ -72,6 +72,10 @@ export PATH="$HOME/cli:$PATH"
 
 # Add Visual Studio Code (code)
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+# Fix vscode copilot output
+if [[ "$TERM_PROGRAM" == "vscode" ]]; then
+  RPROMPT=""
+fi
 
 # Load aliases
 [[ -d ~/.aliases ]] &&
@@ -98,7 +102,7 @@ if [[ "$PWD" != "$HOME" ]]; then
     while IFS= read -r _f; do
         _abs="$(cd "$(dirname "$_f")" && pwd)/$(basename "$_f")"
         [[ ":$KUBECONFIG:" != *":$_abs:"* ]] && export KUBECONFIG="$KUBECONFIG:$_abs"
-    done < <(find ./ -maxdepth 3 -type f \( -name "*.kubeconfig" -o -name "kubeconfig" \) 2>/dev/null)
+    done < <(find ./ -maxdepth 4 -type f \( -name "*.kubeconfig" -o -name "kubeconfig" \) 2>/dev/null)
     unset _abs _f
 fi
 
