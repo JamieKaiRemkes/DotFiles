@@ -106,6 +106,8 @@ fi
 [[ -x $(which asdf) && -r ~/.asdf/plugins/java/set-java-home.zsh ]] &&
   . ~/.asdf/plugins/java/set-java-home.zsh
 
+export JAVA_HOME="$(asdf where java)"
+
 # # Direnv
 [[ -x $(which direnv) ]] &&
   eval "$(direnv hook zsh)"

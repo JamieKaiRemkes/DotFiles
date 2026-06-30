@@ -1,6 +1,6 @@
 [user]
-    name = Jamie Kai Remkes
-    email = j.remkes.jr@gmail.com
+	name = Remkes, Jamie
+	email = jamie.remkes@wartsila.com
 
 [includeIf "gitdir:~/Code/JKR/"]
     path = ~/.gitconfig-jkr
@@ -59,3 +59,8 @@
 	tool = vscode
 [mergetool "vscode"]
 	cmd = code --wait $MERGED
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
