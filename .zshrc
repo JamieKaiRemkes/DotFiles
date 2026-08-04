@@ -115,3 +115,9 @@ export JAVA_HOME="$(asdf where java)"
 # # Direnv
 [[ -x $(which direnv) ]] &&
   eval "$(direnv hook zsh)"
+
+# Nix
+if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+  . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+fi
+# End Nix
