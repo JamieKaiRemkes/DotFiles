@@ -1,24 +1,24 @@
 #!/usr/bin/env bash
 #
-# Sync Open WebUI (OWUI) models into VS Code Copilot's custom language models.
+# Sync JKR models into VS Code Copilot's custom language models.
 #
-# Fetches the model list from an Open WebUI instance and writes a `customendpoint`
+# Fetches the model list from an JKR instance and writes a `customendpoint`
 # provider entry into VS Code's `chatLanguageModels.json` so the models appear in
 # the Copilot model picker. Tries the OpenAI-compatible `/v1/models` endpoint
-# first and falls back to OWUI's native `/api/models`.
+# first and falls back to JKR's native `/api/models`.
 #
-# Per-model context windows are read from OWUI metadata; VS Code treats
+# Per-model context windows are read from JKR metadata; VS Code treats
 # maxInputTokens + maxOutputTokens as the total window, so the reported window is
 # split between input and output. Models without metadata use the fallback envs.
 #
 # Configuration (environment variables):
-#   OWUI_URL                Base URL of Open WebUI. Default: https://llm.jkr.digital
-#   OWUI_API_KEY            API key (falls back to OPENAI_API_KEY if unset)
-#   OWUI_GROUP              Display/group name in the picker. Default: "OWUI"
-#   OWUI_MAX_INPUT_TOKENS   Fallback when OWUI reports no window. Default: 128000
-#   OWUI_MAX_OUTPUT_TOKENS  Fallback max output tokens. Default: 16000
-#   OWUI_TOOL_CALLING       "true"/"false". Default: true
-#   OWUI_VISION             "true"/"false". Default: true
+#   JKR_URL                Base URL of JKR. Default: https://llm.jkr.digital
+#   JKR_API_KEY            API key (falls back to OPENAI_API_KEY if unset)
+#   JKR_GROUP              Display/group name in the picker. Default: "JKR"
+#   JKR_MAX_INPUT_TOKENS   Fallback when JKR reports no window. Default: 128000
+#   JKR_MAX_OUTPUT_TOKENS  Fallback max output tokens. Default: 16000
+#   JKR_TOOL_CALLING       "true"/"false". Default: true
+#   JKR_VISION             "true"/"false". Default: true
 #   COPILOT_MODELS_FILE     Override path to chatLanguageModels.json
 #
 # Exit codes: 0 ok, 1 config error, 2 network/API error.
@@ -31,12 +31,12 @@ command -v jq >/dev/null 2>&1 || { err "jq is required but not installed"; exit 
 command -v curl >/dev/null 2>&1 || { err "curl is required but not installed"; exit 1; }
 
 # ── Configuration ──────────────────────────────────────────────────────────
-BASE="${OWUI_URL:-https://llm.jkr.digital}"
+BASE="${JKR_LLM_URL:-https://jkr.digital/api/llm/v1}"
 BASE="${BASE%/}"
-API_KEY="${OWUI_API_KEY:-${OPENAI_API_KEY:-}}"
-GROUP="${OWUI_GROUP:-OWUI}"
-DEF_IN="${OWUI_MAX_INPUT_TOKENS:-128000}"
-DEF_OUT="${OWUI_MAX_OUTPUT_TOKENS:-16000}"
+API_KEY="${JKR_LLM_API_KEY:-${OPENAI_API_KEY:-}}"
+GROUP="${JKR_GROUP:-JKR}"
+DEF_IN="${JKR_MAX_INPUT_TOKENS:-128000}"
+DEF_OUT="${JKR_MAX_OUTPUT_TOKENS:-16000}"
 CONFIG="${COPILOT_MODELS_FILE:-$HOME/Library/Application Support/Code/User/chatLanguageModels.json}"
 
 to_bool() {
@@ -45,10 +45,10 @@ to_bool() {
         *) echo false ;;
     esac
 }
-TOOL_CALLING="$(to_bool "${OWUI_TOOL_CALLING:-true}")"
-VISION="$(to_bool "${OWUI_VISION:-true}")"
+TOOL_CALLING="$(to_bool "${JKR_TOOL_CALLING:-true}")"
+VISION="$(to_bool "${JKR_VISION:-true}")"
 
-[ -n "$API_KEY" ] || { err "OWUI_API_KEY (or OPENAI_API_KEY) is not set"; exit 1; }
+[ -n "$API_KEY" ] || { err "JKR_API_KEY (or OPENAI_API_KEY) is not set"; exit 1; }
 
 # ── Fetch models ───────────────────────────────────────────────────────────
 fetch() {
@@ -93,8 +93,7 @@ new_config="$(
         --argjson models "$body" \
         --argjson existing "$existing" \
         --arg group "$GROUP" \
-        --arg apikey "$API_KEY" \
-        --arg completions "$BASE/api/chat/completions" \
+        --arg completions "$BASE/chat/completions" \
         --argjson din "$DEF_IN" \
         --argjson dout "$DEF_OUT" \
         --argjson tool "$TOOL_CALLING" \
@@ -132,19 +131,21 @@ new_config="$(
                     id: $id,
                     name: ($m.name // $id),
                     url: $completions,
+                    apiType: "chat-completions",
                     toolCalling: $tool,
                     vision: $vision,
                     maxInputTokens: $lim.mi,
-                    maxOutputTokens: $lim.mo
+                    maxOutputTokens: $lim.mo,
+                    requestHeaders: { "Authorization": "Bearer ${apiKey}" }
                   }
               )
             | reduce .[] as $x ([]; if any(.[]; .id == $x.id) then . else . + [$x] end)
           ) as $entries
-        | if ($entries | length) == 0 then error("no models returned by Open WebUI") else . end
+        | if ($entries | length) == 0 then error("no models returned by JKR") else . end
         | {
             name: $group,
             vendor: "customendpoint",
-            apiKey: $apikey,
+            apiKey: "${input:jkrLlmApiKey}",
             apiType: "chat-completions",
             models: $entries
           } as $provider
