@@ -94,6 +94,7 @@ new_config="$(
         --argjson existing "$existing" \
         --arg group "$GROUP" \
         --arg completions "$BASE/chat/completions" \
+        --arg apikey "$API_KEY" \
         --argjson din "$DEF_IN" \
         --argjson dout "$DEF_OUT" \
         --argjson tool "$TOOL_CALLING" \
@@ -136,7 +137,7 @@ new_config="$(
                     vision: $vision,
                     maxInputTokens: $lim.mi,
                     maxOutputTokens: $lim.mo,
-                    requestHeaders: { "Authorization": "Bearer ${apiKey}" }
+                    requestHeaders: { "Authorization": ("Bearer " + $apikey) }
                   }
               )
             | reduce .[] as $x ([]; if any(.[]; .id == $x.id) then . else . + [$x] end)
@@ -145,7 +146,7 @@ new_config="$(
         | {
             name: $group,
             vendor: "customendpoint",
-            apiKey: "${input:jkrLlmApiKey}",
+            apiKey: $apikey,
             apiType: "chat-completions",
             models: $entries
           } as $provider
